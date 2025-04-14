@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interação com LLaMA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interface Cyberpunk</title>
+
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <!-- Fonte estilo digital -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  
+  <!-- Link do CSS -->
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <div class="container">
-        <h1>Cyberpunk LLaMA</h1>
-        <textarea id="prompt" placeholder="Digite seu pedido para o LLaMA..."></textarea>
-        <button id="submitBtn">Enviar</button>
-        <div id="response"></div>
-    </div>
 
-    <script src="script.js"></script>
+  <!-- Primeira Transição (hack digitando) -->
+  <div id="transition-screen">
+    <div class="type-line" id="line1"></div>
+    <div class="type-line" id="line2"></div>
+    <div class="type-line" id="line3"></div>
+  </div>
+
+  <!-- Segunda Transição (boot) -->
+  <div id="boot-animation">
+    <div class="boot-line"></div>
+  </div>
+
+  <!-- Conteúdo final com Chat -->
+  <div id="main-content">
+    <h1>🤖 Interface Neural Conectada</h1>
+    <div class="chat-box" id="chat-box">
+      <div class="message ia">IA: Conexão estabelecida. Estou ouvindo.</div>
+    </div>
+    <div>
+      <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <!-- Link para o Script JS -->
+  <script src="app.js"></script>
+  
 </body>
 </html>
