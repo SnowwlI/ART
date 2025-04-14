@@ -4,7 +4,8 @@ module.exports = async (req, res) => {
   const { prompt } = req.body;
   
   try {
-    const response = await axios.post('URL_DO_SEU_LLaMA', {
+    const response = await axios.post('http://localhost:11434
+', {
       model: 'llama3',
       prompt,
       stream: false
