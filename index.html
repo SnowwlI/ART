@@ -1,114 +1,20 @@
-<script>
-  console.log("Iniciando...");
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interação com LLaMA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cyberpunk LLaMA</h1>
+        <textarea id="prompt" placeholder="Digite seu pedido para o LLaMA..."></textarea>
+        <button id="submitBtn">Enviar</button>
+        <div id="response"></div>
+    </div>
 
-  const lines = [
-    { id: "line1", text: "> Estabelecendo conexão segura..." },
-    { id: "line2", text: "> Decodificando firewall..." },
-    { id: "line3", text: "> Acesso concedido." }
-  ];
-
-  function typeLine(index) {
-    if (index >= lines.length) {
-      setTimeout(() => showBoot(), 800);
-      return;
-    }
-
-    const { id, text } = lines[index];
-    const el = document.getElementById(id);
-    el.style.opacity = 1;
-    let i = 0;
-    const typing = setInterval(() => {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-      } else {
-        clearInterval(typing);
-        setTimeout(() => typeLine(index + 1), 500);
-      }
-    }, 50);
-  }
-
-  typeLine(0);
-
-  function showBoot() {
-    console.log("Mostrando boot...");
-    const transition = document.getElementById("transition-screen");
-    const boot = document.getElementById("boot-animation");
-    const bootLine = document.querySelector(".boot-line");
-
-    transition.style.display = 'none';
-    boot.style.opacity = 1;
-
-    anime({
-      targets: bootLine,
-      width: ['0%', '100%'],
-      duration: 1000,
-      easing: 'easeInOutExpo',
-      complete: () => {
-        anime({
-          targets: bootLine,
-          height: ['2px', '100vh'],
-          duration: 800,
-          easing: 'easeInOutExpo',
-          complete: () => {
-            boot.style.display = 'none';
-            document.getElementById("main-content").style.display = 'block';
-            console.log("Interface pronta!");
-          }
-        });
-      }
-    });
-  }
-
-  function sendMessage() {
-    const input = document.getElementById("userInput");
-    const msg = input.value.trim();
-    if (msg === "") return;
-
-    const chat = document.getElementById("chat-box");
-
-    const userMsg = document.createElement("div");
-    userMsg.className = "message user";
-    userMsg.textContent = "Você: " + msg;
-    chat.appendChild(userMsg);
-
-    const iaMsg = document.createElement("div");
-    iaMsg.className = "message ia";
-    iaMsg.textContent = "IA: digitando...";
-    chat.appendChild(iaMsg);
-    chat.scrollTop = chat.scrollHeight;
-
-    input.value = "";
-
-    console.log("Enviando para LLaMA:", msg);
-
-    fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama3",
-        prompt: msg,
-        stream: false
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Resposta da IA:", data);
-        iaMsg.textContent = "IA: " + (data.response || "Sem resposta.");
-        chat.scrollTop = chat.scrollHeight;
-      })
-      .catch(error => {
-        iaMsg.textContent = "IA: Erro ao se comunicar com o modelo.";
-        console.error("Erro:", error);
-      });
-  }
-
-  // Atalho: Enter também envia mensagem
-  document.getElementById("userInput").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
-  });
-</script>
+    <script src="script.js"></script>
+</body>
+</html>
