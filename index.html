@@ -1,239 +1,114 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interface Cyberpunk</title>
+<script>
+  console.log("Iniciando...");
 
-  <!-- Anime.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  const lines = [
+    { id: "line1", text: "> Estabelecendo conexão segura..." },
+    { id: "line2", text: "> Decodificando firewall..." },
+    { id: "line3", text: "> Acesso concedido." }
+  ];
 
-  <!-- Fonte estilo digital -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  function typeLine(index) {
+    if (index >= lines.length) {
+      setTimeout(() => showBoot(), 800);
+      return;
     }
 
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #2B0E12, #0d0907);
-      color: #ff3c00;
-      overflow: hidden;
-    }
-
-    /* Primeira transição - digitação */
-    #transition-screen {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(135deg, #2B0E12, #0d0907);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 9999;
-      font-size: 1.2rem;
-    }
-
-    .type-line {
-      opacity: 0;
-      margin: 5px 0;
-      white-space: pre;
-    }
-
-    /* Segunda transição - sistema ligando */
-    #boot-animation {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background-color: #0d0907;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9998;
-      opacity: 0;
-    }
-
-    .boot-line {
-      width: 0;
-      height: 2px;
-      background: #ff3c00;
-    }
-
-    /* Conteúdo do Chat */
-    #main-content {
-      display: none;
-      padding: 40px;
-      text-align: center;
-      z-index: 1;
-    }
-
-    .chat-box {
-      background-color: rgba(0, 0, 0, 0.3);
-      border: 1px solid #ff3c00;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 30px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .message {
-      text-align: left;
-      margin-bottom: 10px;
-    }
-
-    .message.user {
-      text-align: right;
-    }
-
-    input, button {
-      background: #0d0907;
-      color: #ff3c00;
-      border: 1px solid #ff3c00;
-      padding: 10px;
-      font-family: 'Orbitron', sans-serif;
-      width: 70%;
-      margin-top: 15px;
-    }
-
-    button {
-      width: 20%;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Primeira Transição (hack digitando) -->
-  <div id="transition-screen">
-    <div class="type-line" id="line1"></div>
-    <div class="type-line" id="line2"></div>
-    <div class="type-line" id="line3"></div>
-  </div>
-
-  <!-- Segunda Transição (boot) -->
-  <div id="boot-animation">
-    <div class="boot-line"></div>
-  </div>
-
-  <!-- Conteúdo final com Chat -->
-  <div id="main-content">
-    <h1>🤖 Interface Neural Conectada</h1>
-    <div class="chat-box" id="chat-box">
-      <div class="message ia">IA: Conexão estabelecida. Estou ouvindo.</div>
-    </div>
-    <div>
-      <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
-      <button onclick="sendMessage()">Enviar</button>
-    </div>
-  </div>
-
-  <script>
-    // Digitação da primeira transição
-    const lines = [
-      { id: "line1", text: "> Estabelecendo conexão segura..." },
-      { id: "line2", text: "> Decodificando firewall..." },
-      { id: "line3", text: "> Acesso concedido." }
-    ];
-
-    function typeLine(index) {
-      if (index >= lines.length) {
-        setTimeout(() => showBoot(), 800);
-        return;
+    const { id, text } = lines[index];
+    const el = document.getElementById(id);
+    el.style.opacity = 1;
+    let i = 0;
+    const typing = setInterval(() => {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typing);
+        setTimeout(() => typeLine(index + 1), 500);
       }
+    }, 50);
+  }
 
-      const { id, text } = lines[index];
-      const el = document.getElementById(id);
-      el.style.opacity = 1;
-      let i = 0;
-      const typing = setInterval(() => {
-        if (i < text.length) {
-          el.textContent += text.charAt(i);
-          i++;
-        } else {
-          clearInterval(typing);
-          setTimeout(() => typeLine(index + 1), 500);
-        }
-      }, 50);
-    }
+  typeLine(0);
 
-    typeLine(0);
+  function showBoot() {
+    console.log("Mostrando boot...");
+    const transition = document.getElementById("transition-screen");
+    const boot = document.getElementById("boot-animation");
+    const bootLine = document.querySelector(".boot-line");
 
-    // Segunda transição (boot)
-    function showBoot() {
-      const transition = document.getElementById("transition-screen");
-      const boot = document.getElementById("boot-animation");
-      const bootLine = document.querySelector(".boot-line");
+    transition.style.display = 'none';
+    boot.style.opacity = 1;
 
-      transition.style.display = 'none';
-      boot.style.opacity = 1;
-
-      anime({
-        targets: bootLine,
-        width: ['0%', '100%'],
-        duration: 1000,
-        easing: 'easeInOutExpo',
-        complete: () => {
-          anime({
-            targets: bootLine,
-            height: ['2px', '100vh'],
-            duration: 800,
-            easing: 'easeInOutExpo',
-            complete: () => {
-              boot.style.display = 'none';
-              document.getElementById("main-content").style.display = 'block';
-            }
-          });
-        }
-      });
-    }
-
-    // Chat Simples
-   function sendMessage() {
-  const input = document.getElementById("userInput");
-  const msg = input.value.trim();
-  if (msg === "") return;
-
-  const chat = document.getElementById("chat-box");
-
-  const userMsg = document.createElement("div");
-  userMsg.className = "message user";
-  userMsg.textContent = "Você: " + msg;
-  chat.appendChild(userMsg);
-
-  const iaMsg = document.createElement("div");
-  iaMsg.className = "message ia";
-  iaMsg.textContent = "IA: digitando...";
-  chat.appendChild(iaMsg);
-  chat.scrollTop = chat.scrollHeight;
-
-  input.value = "";
-
-  fetch("http://localhost:11434/api/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "llama3",
-      prompt: msg,
-      stream: false
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      iaMsg.textContent = "IA: " + (data.response || "Sem resposta.");
-      chat.scrollTop = chat.scrollHeight;
-    })
-    .catch(error => {
-      iaMsg.textContent = "IA: Erro ao se comunicar com o modelo.";
-      console.error("Erro:", error);
+    anime({
+      targets: bootLine,
+      width: ['0%', '100%'],
+      duration: 1000,
+      easing: 'easeInOutExpo',
+      complete: () => {
+        anime({
+          targets: bootLine,
+          height: ['2px', '100vh'],
+          duration: 800,
+          easing: 'easeInOutExpo',
+          complete: () => {
+            boot.style.display = 'none';
+            document.getElementById("main-content").style.display = 'block';
+            console.log("Interface pronta!");
+          }
+        });
+      }
     });
-}
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const msg = input.value.trim();
+    if (msg === "") return;
+
+    const chat = document.getElementById("chat-box");
+
+    const userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.textContent = "Você: " + msg;
+    chat.appendChild(userMsg);
+
+    const iaMsg = document.createElement("div");
+    iaMsg.className = "message ia";
+    iaMsg.textContent = "IA: digitando...";
+    chat.appendChild(iaMsg);
+    chat.scrollTop = chat.scrollHeight;
+
+    input.value = "";
+
+    console.log("Enviando para LLaMA:", msg);
+
+    fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3",
+        prompt: msg,
+        stream: false
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Resposta da IA:", data);
+        iaMsg.textContent = "IA: " + (data.response || "Sem resposta.");
+        chat.scrollTop = chat.scrollHeight;
+      })
+      .catch(error => {
+        iaMsg.textContent = "IA: Erro ao se comunicar com o modelo.";
+        console.error("Erro:", error);
+      });
+  }
+
+  // Atalho: Enter também envia mensagem
+  document.getElementById("userInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  });
+</script>
