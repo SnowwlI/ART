@@ -196,8 +196,27 @@
       });
     }
 
-    // Chat Simples
-    function sendMessage() {
+    // Função de resposta da IA (usando Lhama ou backend)
+    async function getAIResponse(input) {
+      try {
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt: input })
+        });
+
+        const data = await response.json();
+        return data.response || "Desculpe, não consegui entender."; // Resposta do Lhama ou fallback
+      } catch (error) {
+        console.error("Erro ao se comunicar com o Lhama:", error);
+        return "Desculpe, houve um erro. Tente novamente.";
+      }
+    }
+
+    // Função para enviar a mensagem e exibir a resposta
+    async function sendMessage() {
       const input = document.getElementById("userInput");
       const msg = input.value.trim();
       if (msg === "") return;
@@ -209,27 +228,16 @@
       userMsg.textContent = "Você: " + msg;
       chat.appendChild(userMsg);
 
+      // Espera pela resposta da IA (do Lhama)
       const iaMsg = document.createElement("div");
       iaMsg.className = "message ia";
-      iaMsg.textContent = "IA: " + getAIResponse(msg);
+      iaMsg.textContent = "IA: " + await getAIResponse(msg); // Espera pela resposta assíncrona
       setTimeout(() => {
         chat.appendChild(iaMsg);
         chat.scrollTop = chat.scrollHeight;
       }, 500);
 
       input.value = "";
-    }
-
-    function getAIResponse(input) {
-      // Respostas básicas para simular IA
-      const respostas = {
-        "oi": "Olá, usuário.",
-        "quem é você": "Sou um sistema neural experimental.",
-        "tudo bem": "Estou funcional. E você?",
-      };
-
-      input = input.toLowerCase();
-      return respostas[input] || "Processando dados... ainda estou aprendendo.";
     }
   </script>
 
