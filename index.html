@@ -196,41 +196,44 @@
     }
 
     // Chat Simples
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const msg = input.value.trim();
-      if (msg === "") return;
+   function sendMessage() {
+  const input = document.getElementById("userInput");
+  const msg = input.value.trim();
+  if (msg === "") return;
 
-      const chat = document.getElementById("chat-box");
+  const chat = document.getElementById("chat-box");
 
-      const userMsg = document.createElement("div");
-      userMsg.className = "message user";
-      userMsg.textContent = "Você: " + msg;
-      chat.appendChild(userMsg);
+  const userMsg = document.createElement("div");
+  userMsg.className = "message user";
+  userMsg.textContent = "Você: " + msg;
+  chat.appendChild(userMsg);
 
-      const iaMsg = document.createElement("div");
-      iaMsg.className = "message ia";
-      iaMsg.textContent = "IA: " + getAIResponse(msg);
-      setTimeout(() => {
-        chat.appendChild(iaMsg);
-        chat.scrollTop = chat.scrollHeight;
-      }, 500);
+  const iaMsg = document.createElement("div");
+  iaMsg.className = "message ia";
+  iaMsg.textContent = "IA: digitando...";
+  chat.appendChild(iaMsg);
+  chat.scrollTop = chat.scrollHeight;
 
-      input.value = "";
-    }
+  input.value = "";
 
-    function getAIResponse(input) {
-      // Respostas básicas para simular IA
-      const respostas = {
-        "oi": "Olá, usuário.",
-        "quem é você": "Sou um sistema neural experimental.",
-        "tudo bem": "Estou funcional. E você?",
-      };
-
-      input = input.toLowerCase();
-      return respostas[input] || "Processando dados... ainda estou aprendendo.";
-    }
-  </script>
-
-</body>
-</html>
+  fetch("http://localhost:11434/api/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "llama3",
+      prompt: msg,
+      stream: false
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      iaMsg.textContent = "IA: " + (data.response || "Sem resposta.");
+      chat.scrollTop = chat.scrollHeight;
+    })
+    .catch(error => {
+      iaMsg.textContent = "IA: Erro ao se comunicar com o modelo.";
+      console.error("Erro:", error);
+    });
+}
