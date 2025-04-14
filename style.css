@@ -1,0 +1,85 @@
+/* Cor do fundo geral */
+body {
+    background-color: #121212; /* Fundo escuro */
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container central */
+.container {
+    background-color: #1b1b1b;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 50px rgba(0, 0, 255, 0.4); /* Efeito neon */
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+}
+
+/* Título */
+h1 {
+    color: #00b3b3; /* Verde ciano */
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00b3b3;
+}
+
+/* Estilo da caixa de texto */
+#prompt {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #252525;
+    border: 2px solid #00b3b3;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s;
+}
+
+#prompt:focus {
+    border-color: #ff00ff; /* Neon roxo */
+}
+
+/* Botão de envio */
+button {
+    padding: 12px 30px;
+    font-size: 18px;
+    background-color: #00b3b3;
+    color: #fff;
+    border: 2px solid #00b3b3;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #ff00ff; /* Neon roxo */
+    border-color: #ff00ff;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Resposta do LLaMA */
+#response {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border: 2px solid #ff00ff; /* Bordas em neon roxo */
+    border-radius: 8px;
+    white-space: pre-wrap; /* Para preservar quebras de linha */
+    color: #fff;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.5); /* Efeito neon */
+}
