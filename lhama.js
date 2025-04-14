@@ -1,20 +1,17 @@
-const axios = require('axios');
-
-module.exports = async (req, res) => {
-  const { prompt } = req.body;
-  
-  try {
-    const response = await axios.post('http://localhost:11434
-', {
-      model: 'llama3',
-      prompt,
-      stream: false
-    });
-
-    res.json({
-      response: response.data
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao se comunicar com a API' });
-  }
+// lhama.js
+const fetchLlamaResponse = async (prompt) => {
+    try {
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+        
+        const data = await response.json();
+        return data.response || 'Nenhuma resposta recebida.';
+    } catch (error) {
+        return 'Erro ao comunicar com o servidor.';
+    }
 };
